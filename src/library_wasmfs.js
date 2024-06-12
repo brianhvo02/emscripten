@@ -59,6 +59,9 @@ FS.init();
 #if LibraryManager.has('library_opfs.js')
     '$OPFS',
 #endif
+#if LibraryManager.has('library_externalfs.js')
+    '$ExternalFS',
+#endif
 #if LibraryManager.has('library_jsfilefs.js')
     '$JSFILEFS',
 #endif

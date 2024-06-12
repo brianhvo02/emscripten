@@ -101,6 +101,7 @@ export const LibraryManager = {
           'library_wasmfs_fetch.js',
           'library_wasmfs_node.js',
           'library_wasmfs_opfs.js',
+          'library_wasmfs_externalfs.js',
         );
       } else {
         // Core filesystem libraries (always linked against, unless -sFILESYSTEM=0 is specified)

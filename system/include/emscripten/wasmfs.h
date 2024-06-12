@@ -71,6 +71,7 @@ backend_t wasmfs_create_node_backend(const char* root __attribute__((nonnull)));
 // TODO: Add an async version of this function that will work on the main
 // thread.
 backend_t wasmfs_create_opfs_backend(void);
+backend_t wasmfs_create_externalfs_backend(char const* directory_name __attribute__((nonnull)));
 
 // Creates a generic JSIMPL backend in the new file system.
 backend_t wasmfs_create_jsimpl_backend(void);
