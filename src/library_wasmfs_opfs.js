@@ -334,10 +334,13 @@ addToLibrary({
     }
   },
 
-  _wasmfs_opfs_read_blob__deps: ['$wasmfsOPFSBlobs', '$wasmfsOPFSProxyFinish'],
-  _wasmfs_opfs_read_blob: async function(ctx, blobID, bufPtr, len, pos, nreadPtr) {
+  _wasmfs_opfs_read_blob__deps: ['$wasmfsOPFSBlobs', '$wasmfsOPFSProxyFinish', ...i53ConversionDeps],
+  _wasmfs_opfs_read_blob: async function(ctx, blobID, bufPtr, len, {{{ defineI64Param('pos') }}}, nreadPtr) {
+    {{{ receiveI64ParamAsI53('pos', '', false) }}}
+
     let blob = wasmfsOPFSBlobs.get(blobID);
-    let slice = blob.slice(pos, pos + len);
+    let i53pos = Number(pos);
+    let slice = blob.slice(i53pos, i53pos + len);
     let nread = 0;
 
     try {
@@ -396,7 +399,8 @@ addToLibrary({
   _wasmfs_opfs_get_size_blob__deps: ['$wasmfsOPFSBlobs'],
   _wasmfs_opfs_get_size_blob: (blobID) => {
     // This cannot fail.
-    return wasmfsOPFSBlobs.get(blobID).size;
+    let size = wasmfsOPFSBlobs.get(blobID).size;
+    return {{{ makeReturn64('size') }}};
   },
 
   _wasmfs_opfs_get_size_file__deps: ['$wasmfsOPFSFileHandles', '$wasmfsOPFSProxyFinish'],
