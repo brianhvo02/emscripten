@@ -1985,7 +1985,8 @@ class libwasmfs(DebugLibrary, AsanInstrumentedLibrary, MTLibrary):
                    'memory_backend.cpp',
                    'node_backend.cpp',
                    'opfs_backend.cpp',
-                   'externalfs_backend.cpp'])
+                   'externalfs_backend.cpp',
+                   'fetchfs_backend.cpp'])
     return backends + files_in_path(
         path='system/lib/wasmfs',
         filenames=['file.cpp',
