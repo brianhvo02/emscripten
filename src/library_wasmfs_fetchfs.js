@@ -172,14 +172,18 @@ addToLibrary({
     let i53pos = Number(pos);
     let nread = 0;
 
+    let acceptRange = handle.headers.get('Accept-Ranges') === 'bytes';
+
     try {
       // TODO: Use ReadableStreamBYOBReader once
       // https://bugs.chromium.org/p/chromium/issues/detail?id=1189621 is
       // resolved.
-      let res = await fetch(handle.url, handle.headers.get('Accept-Ranges') === 'bytes'
-        ? { headers: { 'Range': `bytes=${i53pos}-${i53pos + len - 1}` } }
-        : {});
-      let buf = await res.arrayBuffer();
+      let buf = await (acceptRange
+        ? fetch(handle.url, { headers: { 'Range': `bytes=${i53pos}-${i53pos + len - 1}` } })
+          .then(res => res.arrayBuffer())
+        : fetch(handle.url).then(res => res.blob())
+          .then(blob => blob.slice(i53pos, i53pos + len).arrayBuffer())
+      );
       let data = new Uint8Array(buf);
       HEAPU8.set(data, bufPtr);
       nread += data.length;
